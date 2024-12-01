@@ -11,7 +11,7 @@ pub fn solve(path: &str) -> u32 {
     distances(&fl, &sl).into_iter().sum()
 }
 
-fn parse_lines(lines: Vec<&str>) -> (Vec<u32>, Vec<u32>) {
+pub fn parse_lines(lines: Vec<&str>) -> (Vec<u32>, Vec<u32>) {
     let mut fl: Vec<u32> = vec![];
     let mut sl: Vec<u32> = vec![];
     lines.into_iter().for_each(|line: &str| {
