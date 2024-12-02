@@ -24,7 +24,7 @@ fn check_line(line: &Vec<i32>) -> bool {
         return true; // can't be false
     }
 
-    if line[0] == line[1] {
+    if line[0] == line[1] || (line[0] - line[1]).abs() > 3 {
         return false;
     }
 
@@ -76,5 +76,8 @@ mod test {
         assert_eq!(check_line(&vec![3, 2, 1, 2]), false);
         assert_eq!(check_line(&vec![1, 2, 3, 12]), false);
         assert_eq!(check_line(&vec![1, 2, 2, 3]), false);
+        assert_eq!(check_line(&vec![12, 11, 7]), false);
+        assert_eq!(check_line(&vec![1, 1]), false);
+        assert_eq!(check_line(&vec![6, 1]), false);
     }
 }
