@@ -9,7 +9,7 @@ pub fn solve(path: &str) -> usize {
         .count()
 }
 
-fn parse_line(line: &str) -> Vec<i32> {
+pub fn parse_line(line: &str) -> Vec<i32> {
     line.split_whitespace()
         .map(|entry: &str| entry.parse::<i32>().unwrap())
         .collect()
