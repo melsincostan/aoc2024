@@ -8,6 +8,6 @@ mod test {
 
     #[test]
     fn test_solve() {
-        assert_eq!(solve("sample.txt"), 1);
+        assert_eq!(solve("sample.txt"), 4);
     }
 }
