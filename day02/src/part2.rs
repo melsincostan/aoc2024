@@ -1,4 +1,4 @@
-use std::{cmp, fs};
+use std::fs;
 
 use crate::part1;
 
@@ -28,11 +28,20 @@ fn check_line_int(line: &Vec<i32>, recursing: bool) -> bool {
             let mut wf = line.to_owned();
             let mut ws = line.to_owned();
             let mut wp = line.to_owned();
+            let mut wz = line.to_owned();
+            let mut wo = line.to_owned();
             wf.remove(i);
             ws.remove(i + 1);
             wp.remove(if i > 0 { i - 1 } else { 0 });
+            wz.remove(0);
+            wo.remove(1);
 
-            if check_line_int(&wf, true) || check_line_int(&ws, true) || check_line_int(&wp, true) {
+            if check_line_int(&wf, true)
+                || check_line_int(&ws, true)
+                || check_line_int(&wp, true)
+                || check_line_int(&wz, true)
+                || check_line_int(&wo, true)
+            {
             } else {
                 return false;
             }
