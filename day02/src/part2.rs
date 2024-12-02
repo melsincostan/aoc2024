@@ -33,8 +33,8 @@ fn check_line_int(line: &Vec<i32>, recursing: bool) -> bool {
             wz.remove(0);
 
             if check_line_int(&wf, true) || check_line_int(&ws, true) || check_line_int(&wz, true) {
-                println!("waow!!")
             } else {
+                println!("giving up on line at index {}", i);
                 return brute(line);
             }
         }
@@ -47,6 +47,8 @@ fn brute(line: &Vec<i32>) -> bool {
         let mut wi = line.to_owned();
         wi.remove(i);
         if check_line_int(&wi, true) {
+            println!("recovered line by removing index {} (line data follows)", i);
+            println!("\t{:?}", line);
             return true;
         }
     }
