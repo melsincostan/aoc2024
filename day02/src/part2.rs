@@ -1,4 +1,4 @@
-use std::fs;
+use std::{cmp, fs};
 
 use crate::part1;
 
@@ -27,32 +27,18 @@ fn check_line_int(line: &Vec<i32>, recursing: bool) -> bool {
             }
             let mut wf = line.to_owned();
             let mut ws = line.to_owned();
-            let mut wz = line.to_owned();
+            let mut wp = line.to_owned();
             wf.remove(i);
             ws.remove(i + 1);
-            wz.remove(0);
+            wp.remove(if i > 0 { i - 1 } else { 0 });
 
-            if check_line_int(&wf, true) || check_line_int(&ws, true) || check_line_int(&wz, true) {
+            if check_line_int(&wf, true) || check_line_int(&ws, true) || check_line_int(&wp, true) {
             } else {
-                println!("giving up on line at index {}", i);
-                return brute(line);
+                return false;
             }
         }
     }
     true
-}
-
-fn brute(line: &Vec<i32>) -> bool {
-    for i in 0..line.len() {
-        let mut wi = line.to_owned();
-        wi.remove(i);
-        if check_line_int(&wi, true) {
-            println!("recovered line by removing index {} (line data follows)", i);
-            println!("\t{:?}", line);
-            return true;
-        }
-    }
-    false
 }
 
 fn ok(asc: bool, a: i32, b: i32) -> bool {
@@ -89,5 +75,8 @@ mod test {
         assert_eq!(check_line(&vec![9, 10, 8, 7, 6]), true);
         assert_eq!(check_line(&vec![1, 12, 4, 3, 2]), false);
         assert_eq!(check_line(&vec![1, 2, 3, 4, 5, 2]), true);
+        assert_eq!(check_line(&vec![57, 57, 60, 61, 64]), true);
+        assert_eq!(check_line(&vec![28, 30, 27, 25, 22, 19, 16]), true);
+        assert_eq!(check_line(&vec![62, 65, 61, 58, 57, 56, 53, 51]), true);
     }
 }
