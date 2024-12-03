@@ -2,27 +2,37 @@ use std::fs;
 
 use regex::Regex;
 
-use crate::part1;
+const ENABLE: &str = "do()";
+const DISABLE: &str = "don't()";
 
 pub fn solve(path: &str) -> u32 {
     let input = fs::read_to_string(path).unwrap();
-    let refp = Regex::new(r"don't\(\).*?do\(\)").unwrap();
-    let fp = refp.replace_all(&input, "");
-    // first pass would leave any final don't() with nothing getting re-enabled after in.
-    let resp = Regex::new(r"don't\(\).*").unwrap();
-    let sp = resp.replace_all(&fp, "");
-    let re = Regex::new(r"mul\([1-9]{1,3},[1-9]{1,3}\)").unwrap();
 
-    let dbg_1 = refp
-        .find_iter(&input)
-        .map(|m| m.as_str())
-        .collect::<Vec<&str>>();
-    println!("dbg1:\n--------\n{}\n-------\n", dbg_1.join("\n------\n"));
+    let mut writeable = true;
+    let mut total = 0;
 
-    re.find_iter(&sp)
-        .map(|m| m.as_str())
-        .map(part1::parse_mul)
-        .sum()
+    let extract = Regex::new(r"^mul\((?<a>[0-9]{1,3}),(?<b>[0-9]{1,3})\)").unwrap();
+
+    for i in 0..input.len() {
+        let sub = input[i..input.len()].to_owned();
+        if sub.starts_with(DISABLE) {
+            writeable = false;
+            continue;
+        }
+
+        if sub.starts_with(ENABLE) {
+            writeable = true;
+            continue;
+        }
+
+        if writeable && extract.find(sub.as_str()).is_some() {
+            let cap = extract.captures(sub.as_str()).unwrap();
+            let a = cap.name("a").unwrap().as_str().parse::<u32>().unwrap();
+            let b = cap.name("b").unwrap().as_str().parse::<u32>().unwrap();
+            total += a * b;
+        }
+    }
+    total
 }
 
 #[cfg(test)]
