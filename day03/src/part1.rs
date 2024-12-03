@@ -8,7 +8,7 @@ pub fn solve(path: &str) -> u32 {
     re.find_iter(&hay).map(|m| m.as_str()).map(parse_mul).sum()
 }
 
-fn parse_mul(mul: &str) -> u32 {
+pub fn parse_mul(mul: &str) -> u32 {
     let re = Regex::new(r"mul\((?<a>[0-9]{1,3}),(?<b>[0-9]{1,3})\)").unwrap();
     let cap: Vec<(&str, &str)> = re
         .captures_iter(mul)
