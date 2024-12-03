@@ -12,6 +12,13 @@ pub fn solve(path: &str) -> u32 {
     let resp = Regex::new(r"don't\(\).*").unwrap();
     let sp = resp.replace_all(&fp, "");
     let re = Regex::new(r"mul\([1-9]{1,3},[1-9]{1,3}\)").unwrap();
+
+    let dbg_1 = refp
+        .find_iter(&input)
+        .map(|m| m.as_str())
+        .collect::<Vec<&str>>();
+    println!("dbg1:\n--------\n{}\n-------\n", dbg_1.join("\n------\n"));
+
     re.find_iter(&sp)
         .map(|m| m.as_str())
         .map(part1::parse_mul)
