@@ -50,7 +50,7 @@ pub fn parse_rules(raw: &str) -> HashMap<u32, HashSet<u32>> {
     let mut res: HashMap<u32, HashSet<u32>> = HashMap::new();
     raw.split_whitespace().map(parse_rule).for_each(|r| {
         if res.contains_key(&r.1) {
-            // if a comes after b, then b must come after a
+            // if a comes before b, then b must come after a
             let mut curr = res.get(&r.1).unwrap().to_owned();
             curr.insert(r.0);
             res.insert(r.1, curr);
