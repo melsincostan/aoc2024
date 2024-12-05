@@ -18,7 +18,7 @@ pub fn solve(path: &str) -> u32 {
 
 pub fn middle(arr: Vec<u32>) -> u32 {
     assert_eq!(arr.len() % 2, 1); // how would one get the middle of an even list??
-    arr[arr.len().div_ceil(2) - 1]
+    arr[arr.len().div_ceil(2) - 1] // for some reason .div_floor() makes use of something unstable?
 }
 
 pub fn check_update(rules: &HashMap<u32, HashSet<u32>>, update: &Vec<u32>) -> bool {
