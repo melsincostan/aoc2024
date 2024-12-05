@@ -16,12 +16,12 @@ pub fn solve(path: &str) -> u32 {
         .sum()
 }
 
-fn middle(arr: Vec<u32>) -> u32 {
+pub fn middle(arr: Vec<u32>) -> u32 {
     assert_eq!(arr.len() % 2, 1); // how would one get the middle of an even list??
     arr[arr.len().div_ceil(2) - 1]
 }
 
-fn check_update(rules: &HashMap<u32, HashSet<u32>>, update: &Vec<u32>) -> bool {
+pub fn check_update(rules: &HashMap<u32, HashSet<u32>>, update: &Vec<u32>) -> bool {
     for i in 0..update.len() {
         let after: HashSet<u32> =
             HashSet::from_iter(update[i..update.len()].to_owned().into_iter());
@@ -38,14 +38,14 @@ fn check_update(rules: &HashMap<u32, HashSet<u32>>, update: &Vec<u32>) -> bool {
     true
 }
 
-fn parse_update(raw: &str) -> Vec<u32> {
+pub fn parse_update(raw: &str) -> Vec<u32> {
     raw.trim()
         .split(",")
         .map(|s| s.parse::<u32>().unwrap())
         .collect()
 }
 
-fn parse_rules(raw: &str) -> HashMap<u32, HashSet<u32>> {
+pub fn parse_rules(raw: &str) -> HashMap<u32, HashSet<u32>> {
     // for each found entry, list what numbers must come before it
     let mut res: HashMap<u32, HashSet<u32>> = HashMap::new();
     raw.split_whitespace().map(parse_rule).for_each(|r| {
