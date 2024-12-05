@@ -1,4 +1,7 @@
-use std::{collections::HashMap, fs};
+use std::{
+    collections::{HashMap, HashSet},
+    fs,
+};
 
 pub fn solve(path: &str) -> u32 {
     let input = fs::read_to_string(path).unwrap();
@@ -8,15 +11,15 @@ pub fn solve(path: &str) -> u32 {
     0
 }
 
-fn parse_rules(raw: &str) -> HashMap<u32, Vec<u32>> {
-    let mut res: HashMap<u32, Vec<u32>> = HashMap::new();
+fn parse_rules(raw: &str) -> HashMap<u32, HashSet<u32>> {
+    let mut res: HashMap<u32, HashSet<u32>> = HashMap::new();
     raw.split_whitespace().map(parse_rule).for_each(|r| {
         if res.contains_key(&r.0) {
-            let mut curr = res.get(&r.0).unwrap().to_vec();
-            curr.push(r.1);
+            let mut curr = res.get(&r.0).unwrap().to_owned();
+            curr.insert(r.1);
             res.insert(r.0, curr);
         } else {
-            res.insert(r.0, vec![r.1]);
+            res.insert(r.0, HashSet::from_iter(vec![r.1].into_iter()));
         }
     });
     res
