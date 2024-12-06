@@ -1,5 +1,6 @@
 use std::{collections::HashSet, fs};
 
+#[derive(PartialEq, Eq, Clone, Hash, Copy)]
 pub enum Facing {
     UP,
     DOWN,
