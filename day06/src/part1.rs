@@ -1,6 +1,6 @@
 use std::{collections::HashSet, fs};
 
-enum Facing {
+pub enum Facing {
     UP,
     DOWN,
     LEFT,
@@ -37,7 +37,7 @@ pub fn solve(path: &str) -> usize {
     visited.len()
 }
 
-fn rotate_dir_90(dir: &Facing) -> Facing {
+pub fn rotate_dir_90(dir: &Facing) -> Facing {
     match dir {
         Facing::UP => Facing::RIGHT,
         Facing::RIGHT => Facing::DOWN,
@@ -46,7 +46,7 @@ fn rotate_dir_90(dir: &Facing) -> Facing {
     }
 }
 
-fn start_pos(grid: &Vec<Vec<char>>) -> Option<(usize, usize, Facing)> {
+pub fn start_pos(grid: &Vec<Vec<char>>) -> Option<(usize, usize, Facing)> {
     for y in 0..grid.len() {
         for x in 0..grid.len() {
             match grid[y][x] {
@@ -58,7 +58,13 @@ fn start_pos(grid: &Vec<Vec<char>>) -> Option<(usize, usize, Facing)> {
     None
 }
 
-fn next_pos(x: usize, y: usize, mx: usize, my: usize, facing: &Facing) -> Option<(usize, usize)> {
+pub fn next_pos(
+    x: usize,
+    y: usize,
+    mx: usize,
+    my: usize,
+    facing: &Facing,
+) -> Option<(usize, usize)> {
     match facing {
         Facing::UP => {
             if y > 0 {
