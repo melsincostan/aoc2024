@@ -49,7 +49,7 @@ mod test {
 
     #[test]
     fn test_line_solveable() {
-        let a = VecDeque::from_iter(vec![19]);
+        let a = VecDeque::from_iter(vec![19, 0]);
         let b = VecDeque::from_iter(vec![40, 27]);
         let c = VecDeque::from_iter(vec![6, 16, 20]);
         let d = VecDeque::from_iter(vec![10, 13]);
