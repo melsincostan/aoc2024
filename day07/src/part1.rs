@@ -1,17 +1,17 @@
 use std::{collections::VecDeque, fs};
 
-pub fn solve(path: &str) -> u32 {
+pub fn solve(path: &str) -> u64 {
     fs::read_to_string(path)
         .unwrap()
         .lines()
         .map(|l| {
             let parts: Vec<&str> = l.split(": ").collect();
             assert_eq!(parts.len(), 2);
-            let target = parts[0].parse::<u32>().unwrap();
+            let target = parts[0].parse::<u64>().unwrap();
             let inputs = VecDeque::from_iter(
                 parts[1]
                     .split_whitespace()
-                    .map(|r| r.parse::<u32>().unwrap()),
+                    .map(|r| r.parse::<u64>().unwrap()),
             );
             (target, inputs)
         })
@@ -24,10 +24,10 @@ pub fn solve(path: &str) -> u32 {
         .sum()
 }
 
-fn line_solvable(line: &VecDeque<u32>, acc: u32, target: u32) -> bool {
+fn line_solvable(line: &VecDeque<u64>, acc: u64, target: u64) -> bool {
     if line.len() < 1 {
         acc == target
-    } else if acc >= target {
+    } else if acc > target {
         false
     } else {
         let mut nl = line.clone();
