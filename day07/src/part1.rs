@@ -1,7 +1,27 @@
-use std::collections::VecDeque;
+use std::{collections::VecDeque, fs};
 
 pub fn solve(path: &str) -> u32 {
-    0
+    fs::read_to_string(path)
+        .unwrap()
+        .lines()
+        .map(|l| {
+            let parts: Vec<&str> = l.split(": ").collect();
+            assert_eq!(parts.len(), 2);
+            let target = parts[0].parse::<u32>().unwrap();
+            let inputs = VecDeque::from_iter(
+                parts[1]
+                    .split_whitespace()
+                    .map(|r| r.parse::<u32>().unwrap()),
+            );
+            (target, inputs)
+        })
+        .filter(|i| {
+            let mut nl = i.1.clone();
+            let first = nl.pop_front().unwrap();
+            line_solvable(&nl, first, i.0)
+        })
+        .map(|l| l.0)
+        .sum()
 }
 
 fn line_solvable(line: &VecDeque<u32>, acc: u32, target: u32) -> bool {
