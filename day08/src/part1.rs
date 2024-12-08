@@ -42,7 +42,7 @@ fn get_antinodes(freq: &Vec<(i32, i32)>, max_x: i32, max_y: i32) -> HashSet<(i32
     }
 }
 
-fn parse_grid(grid: &Vec<Vec<char>>) -> HashMap<char, Vec<(i32, i32)>> {
+pub fn parse_grid(grid: &Vec<Vec<char>>) -> HashMap<char, Vec<(i32, i32)>> {
     let mut frequencies: HashMap<char, Vec<(i32, i32)>> = HashMap::new();
     for y in 0..grid.len() {
         for x in 0..grid.len() {
