@@ -30,34 +30,20 @@ fn get_antinodes(freq: &Vec<(i32, i32)>, max_x: i32, max_y: i32) -> HashSet<(i32
                 if i == j {
                     continue;
                 }
-                // y = a*x + b
-                let fun = get_line_func(freq[i], freq[j]);
-                for k in 0..max_x {
-                    let fy = fun(k);
-                    if fy.fract() == 0.0 {
-                        // if fy doesn't have any fractional part then it is an usable coordinate (maybe)
-                        let y: i32 = fy.trunc() as i32;
-                        if y >= 0 && y < max_y {
-                            nodes.insert((k, y));
-                        }
+                let vector = (freq[j].0 - freq[i].0, freq[j].1 - freq[i].1);
+                let mut factor = 1;
+                loop {
+                    let pos = (freq[i].0 + factor * vector.0, freq[i].1 + factor * vector.1);
+                    if pos.0 >= 0 && pos.0 < max_x && pos.1 >= 0 && pos.1 < max_y {
+                        nodes.insert(pos);
+                        factor += 1;
+                    } else {
+                        break;
                     }
                 }
             }
         }
         nodes
-    }
-}
-
-fn get_line_func(pa: (i32, i32), pb: (i32, i32)) -> impl Fn(i32) -> f64 {
-    let x1: f64 = pa.0.try_into().unwrap();
-    let y1: f64 = pa.1.try_into().unwrap();
-    let x2: f64 = pb.0.try_into().unwrap();
-    let y2: f64 = pb.1.try_into().unwrap();
-    let slope: f64 = (y2 - y1) / (x2 - x1);
-    let intercept: f64 = y1 - slope * x1;
-    move |x: i32| -> f64 {
-        let fx: f64 = x.try_into().unwrap();
-        slope * fx + intercept
     }
 }
 
