@@ -2,6 +2,23 @@ pub fn solve(input: &str) -> u32 {
     0
 }
 
+// only run defragmented inputs through this!
+fn checksum(input: &Vec<char>) -> usize {
+    let mut acc = 0;
+
+    for i in 1..input.len() {
+        // first block is always going to be multiplicated by zero, theres no small savings :>
+        if input[i] == '.' {
+            // reached the end of the blocks!
+            break;
+        }
+
+        acc += i * input[i].to_string().parse::<usize>().unwrap();
+    }
+
+    acc
+}
+
 fn defrag(input: &Vec<char>) -> Vec<char> {
     let mut res = input.clone();
     'outside: for i in (0..res.len()).rev() {
@@ -49,7 +66,7 @@ fn parse_input(input: &str) -> Vec<char> {
 #[cfg(test)]
 mod test {
 
-    use crate::part1::{defrag, parse_input, solve};
+    use crate::part1::{checksum, defrag, parse_input, solve};
 
     #[test]
     fn test_solve() {
@@ -83,5 +100,13 @@ mod test {
                 .chars()
                 .collect::<Vec<char>>()
         );
+    }
+
+    #[test]
+    fn test_checksum() {
+        let a = "0099811188827773336446555566.............."
+            .chars()
+            .collect::<Vec<char>>();
+        assert_eq!(checksum(&a), 1928);
     }
 }
