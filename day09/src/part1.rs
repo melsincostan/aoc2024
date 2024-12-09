@@ -1,5 +1,11 @@
-pub fn solve(input: &str) -> u32 {
-    0
+use std::fs;
+
+pub fn solve(input: &str) -> usize {
+    let input = fs::read_to_string(input).unwrap();
+    let trimmed = input.trim();
+    let parsed = parse_input(&trimmed);
+    let defragged = defrag(&parsed);
+    checksum(&defragged)
 }
 
 // only run defragmented inputs through this!
