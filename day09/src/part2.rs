@@ -52,6 +52,7 @@ fn defrag(in_voids: &Vec<Void>, in_files: &Vec<File>) -> Vec<File> {
         // in reverse order, try once for each file
         for j in 0..voids.len() {
             if voids[j].start > files[i].start {
+                // we don't want to be moving files to the right...
                 break;
             }
             if voids[j].leftover_space >= files[i].size {
