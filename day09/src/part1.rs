@@ -2,6 +2,29 @@ pub fn solve(input: &str) -> u32 {
     0
 }
 
+fn defrag(input: &Vec<char>) -> Vec<char> {
+    let mut res = input.clone();
+    'outside: for i in (0..res.len()).rev() {
+        println!("{}", i);
+        if res[i] != '.' {
+            // not empty space
+            'inside: for j in 0..res.len() {
+                if j >= i - 1 {
+                    // won't be possible to fit anymore, save a few cycles
+                    break 'outside;
+                }
+
+                if res[j] == '.' {
+                    res[j] = res[i];
+                    res[i] = '.';
+                    break 'inside; // no point in going further, we're done
+                }
+            }
+        }
+    }
+    res
+}
+
 fn parse_input(input: &str) -> Vec<char> {
     let parsed_nums: Vec<usize> = input
         .chars()
@@ -26,7 +49,7 @@ fn parse_input(input: &str) -> Vec<char> {
 #[cfg(test)]
 mod test {
 
-    use crate::part1::{parse_input, solve};
+    use crate::part1::{defrag, parse_input, solve};
 
     #[test]
     fn test_solve() {
@@ -45,5 +68,20 @@ mod test {
                 .chars()
                 .collect::<Vec<char>>()
         )
+    }
+
+    #[test]
+    fn test_defrag() {
+        let a: Vec<char> = "0..111....22222".chars().collect();
+        let b: Vec<char> = "00...111...2...333.44.5555.6666.777.888899"
+            .chars()
+            .collect();
+        assert_eq!(defrag(&a), "022111222......".chars().collect::<Vec<char>>());
+        assert_eq!(
+            defrag(&b),
+            "0099811188827773336446555566.............."
+                .chars()
+                .collect::<Vec<char>>()
+        );
     }
 }
