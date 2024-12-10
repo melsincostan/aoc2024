@@ -13,14 +13,14 @@ pub fn solve(path: &str) -> usize {
         .sum()
 }
 
-fn parse_input(input: &str) -> Vec<Vec<u32>> {
+pub fn parse_input(input: &str) -> Vec<Vec<u32>> {
     input
         .lines()
         .map(|l| l.chars().map(|c| c.to_digit(10).unwrap()).collect())
         .collect()
 }
 
-fn find_trailheads(grid: &Vec<Vec<u32>>) -> Vec<(usize, usize)> {
+pub fn find_trailheads(grid: &Vec<Vec<u32>>) -> Vec<(usize, usize)> {
     let mut res: Vec<(usize, usize)> = vec![];
     for y in 0..grid.len() {
         for x in 0..grid[y].len() {
