@@ -1,17 +1,45 @@
-use std::collections::{HashSet, VecDeque};
+use std::{
+    collections::{HashSet, VecDeque},
+    fs,
+};
 
-pub fn solve(path: &str) -> u32 {
-    0
+pub fn solve(path: &str) -> usize {
+    let raw = fs::read_to_string(path).unwrap();
+    let grid = parse_input(&raw);
+    let trailheads = find_trailheads(&grid);
+    trailheads
+        .into_iter()
+        .map(|t| trailhead_score(&grid, t.0, t.1))
+        .sum()
 }
 
-fn trailhead_score(grid: &Vec<Vec<u8>>, start_x: usize, start_y: usize) -> usize {
+fn parse_input(input: &str) -> Vec<Vec<u32>> {
+    input
+        .lines()
+        .map(|l| l.chars().map(|c| c.to_digit(10).unwrap()).collect())
+        .collect()
+}
+
+fn find_trailheads(grid: &Vec<Vec<u32>>) -> Vec<(usize, usize)> {
+    let mut res: Vec<(usize, usize)> = vec![];
+    for y in 0..grid.len() {
+        for x in 0..grid[y].len() {
+            if grid[y][x] == 0 {
+                res.push((x, y));
+            }
+        }
+    }
+    res
+}
+
+fn trailhead_score(grid: &Vec<Vec<u32>>, start_x: usize, start_y: usize) -> usize {
     let mut queue: VecDeque<(usize, usize)> = VecDeque::new();
     let mut visited: HashSet<(usize, usize)> = HashSet::new();
     let mut destinations: HashSet<(usize, usize)> = HashSet::new();
 
     queue.push_back((start_x, start_y));
 
-    while queue.len() > 1 {
+    while queue.len() > 0 {
         let visit = queue.pop_front().unwrap();
         visited.insert((visit.0, visit.1));
         let x = visit.0;
@@ -49,6 +77,6 @@ mod test {
 
     #[test]
     fn test_solve() {
-        assert_eq!(solve("sample.txt"), 0);
+        assert_eq!(solve("sample.txt"), 36);
     }
 }
