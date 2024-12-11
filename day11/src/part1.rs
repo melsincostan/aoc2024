@@ -1,14 +1,14 @@
 use std::fs;
 
-pub fn solve(path: &str) -> u32 {
+pub fn solve(path: &str) -> u64 {
     fs::read_to_string(path)
         .unwrap()
         .split_whitespace()
-        .map(|i| stone_amount(i.parse::<u32>().unwrap(), 25))
+        .map(|i| stone_amount(i.parse::<u64>().unwrap(), 25))
         .sum()
 }
 
-fn stone_amount(value: u32, iter: u32) -> u32 {
+fn stone_amount(value: u64, iter: u64) -> u64 {
     if iter == 0 {
         1
     } else if value == 0 {
@@ -21,9 +21,9 @@ fn stone_amount(value: u32, iter: u32) -> u32 {
     }
 }
 
-fn split(value: String) -> (u32, u32) {
-    let a = value[0..value.len() / 2].parse::<u32>().unwrap();
-    let b = value[value.len() / 2..value.len()].parse::<u32>().unwrap();
+fn split(value: String) -> (u64, u64) {
+    let a = value[0..value.len() / 2].parse::<u64>().unwrap();
+    let b = value[value.len() / 2..value.len()].parse::<u64>().unwrap();
     (a, b)
 }
 
