@@ -26,10 +26,21 @@ pub fn bin_gcd(a: u32, b: u32) -> u32 {
     }
 }
 
+pub fn extended_euclid_gcd(a: i64, b: i64) -> (i64, i64, i64) {
+    if a == 0 {
+        (b, 0, 1)
+    } else {
+        let r = extended_euclid_gcd(b % a, a);
+        let x = r.2 - (b / a) * r.1;
+        let y = r.1;
+        (r.0, x, y)
+    }
+}
+
 #[cfg(test)]
 mod test {
 
-    use crate::part2::{bin_gcd, has_solution, solve};
+    use crate::part2::{bin_gcd, extended_euclid_gcd, has_solution, solve};
 
     #[test]
     fn test_solve() {
@@ -42,6 +53,11 @@ mod test {
         assert_eq!(bin_gcd(15, 9), 3);
         assert_eq!(bin_gcd(99938, 1), 1);
         assert_eq!(bin_gcd(30, 15), 15);
+    }
+
+    #[test]
+    fn test_extendded_euclid_gcd() {
+        assert_eq!(extended_euclid_gcd(55, 79), (1, 23, -16))
     }
 
     #[test]
