@@ -1,4 +1,4 @@
-pub fn solve(path: &str) -> u32 {
+pub fn solve(path: &str) -> u64 {
     0
 }
 
