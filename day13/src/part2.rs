@@ -2,6 +2,10 @@ pub fn solve(path: &str) -> u64 {
     1
 }
 
+pub fn has_solution(a: u32, b: u32, c: u32) -> bool {
+    c % bin_gcd(a, b) == 0
+}
+
 pub fn bin_gcd(a: u32, b: u32) -> u32 {
     if a == b {
         a
@@ -24,7 +28,8 @@ pub fn bin_gcd(a: u32, b: u32) -> u32 {
 
 #[cfg(test)]
 mod test {
-    use crate::part2::{bin_gcd, solve};
+
+    use crate::part2::{bin_gcd, has_solution, solve};
 
     #[test]
     fn test_solve() {
@@ -37,5 +42,13 @@ mod test {
         assert_eq!(bin_gcd(15, 9), 3);
         assert_eq!(bin_gcd(99938, 1), 1);
         assert_eq!(bin_gcd(30, 15), 15);
+    }
+
+    #[test]
+    fn test_has_solution() {
+        assert_eq!(has_solution(94, 22, 8400), true);
+        assert_eq!(has_solution(34, 67, 5400), true);
+        assert_eq!(has_solution(26, 67, 12748), true);
+        assert_eq!(has_solution(66, 21, 12176), false);
     }
 }
