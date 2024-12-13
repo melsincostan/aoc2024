@@ -1,5 +1,45 @@
+use std::fs;
+
 pub fn solve(path: &str) -> i64 {
-    0
+    let file = fs::read_to_string(path).unwrap();
+    let input = file.split("\n\n"); // get single games
+    input
+        .into_iter()
+        .map(parse_game)
+        .map(|g| {
+            let res = result(g.0 .0, g.0 .1, g.1 .0, g.1 .1, g.2 .0, g.2 .1);
+            if res.is_some() {
+                let u = res.unwrap();
+                u.0 * 3 + u.1
+            } else {
+                0
+            }
+        })
+        .sum()
+}
+
+fn parse_game(input: &str) -> ((i64, i64), (i64, i64), (i64, i64)) {
+    let lines: Vec<&str> = input.trim().split("\n").collect();
+    assert_eq!(lines.len(), 3);
+    let a = parse_coords(lines[0]);
+    let b = parse_coords(lines[1]);
+    let p = parse_coords(lines[2]);
+    (a, b, p)
+}
+
+fn parse_coords(input: &str) -> (i64, i64) {
+    let s: Vec<&str> = input.split(": ").collect();
+    assert_eq!(s.len(), 2);
+    let raw_coords: Vec<&str> = s[1].split(", ").collect();
+    assert_eq!(raw_coords.len(), 2);
+    (
+        raw_coords[0][2..raw_coords[0].len()]
+            .parse::<i64>()
+            .unwrap(),
+        raw_coords[1][2..raw_coords[1].len()]
+            .parse::<i64>()
+            .unwrap(),
+    )
 }
 
 fn result(ax: i64, ay: i64, bx: i64, by: i64, px: i64, py: i64) -> Option<(i64, i64)> {
@@ -24,11 +64,11 @@ fn result(ax: i64, ay: i64, bx: i64, by: i64, px: i64, py: i64) -> Option<(i64, 
 
 #[cfg(test)]
 mod test {
-    use crate::{part1::solve, part2::result};
+    use crate::{part1::result, part1::solve};
 
     #[test]
     fn test_solve() {
-        assert_eq!(solve("sample.txt"), 0);
+        assert_eq!(solve("sample.txt"), 480);
     }
 
     #[test]
