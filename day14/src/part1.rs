@@ -1,5 +1,13 @@
-pub fn solve(path: &str) -> u32 {
-    0
+use std::fs;
+
+pub fn solve(path: &str) -> u64 {
+    let robots: Vec<(i64, i64)> = fs::read_to_string(path)
+        .unwrap()
+        .lines()
+        .map(|l| parse_robot(l))
+        .map(|r| pos_in(100, r.0 .0, r.0 .1, r.1 .0, r.1 .1, 101, 103))
+        .collect();
+    safety_factor(&robots, 101, 103)
 }
 
 pub fn pos_in(
@@ -39,13 +47,39 @@ fn parse_set(input: &str) -> (i64, i64) {
     (x, y)
 }
 
+fn safety_factor(robots: &Vec<(i64, i64)>, grid_x: i64, grid_y: i64) -> u64 {
+    let lr_delim = grid_x / 2; // ceil
+    let tb_delim = grid_y / 2; // ceil
+    let mut tr = 0;
+    let mut tl = 0;
+    let mut br = 0;
+    let mut bl = 0;
+    robots.into_iter().for_each(|r| {
+        if r.0 < lr_delim {
+            if r.1 < tb_delim {
+                tl += 1;
+            } else if r.1 > tb_delim {
+                bl += 1;
+            }
+        } else if r.0 > lr_delim {
+            if r.1 < tb_delim {
+                tr += 1;
+            } else if r.1 > tb_delim {
+                br += 1;
+            }
+        }
+    });
+
+    tr * tl * br * bl
+}
+
 #[cfg(test)]
 mod test {
     use crate::part1::{parse_robot, parse_set, pos_in, solve};
 
     #[test]
     fn test_solve() {
-        assert_eq!(solve("sample.txt"), 0);
+        assert_eq!(solve("sample.txt"), 12);
     }
 
     #[test]
