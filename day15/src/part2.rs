@@ -22,7 +22,6 @@ pub fn solve(path: &str) -> usize {
     let input: Vec<&str> = raw.split("\n\n").collect();
     assert_eq!(input.len(), 2);
     let mut grid = parse_grid(input[0]);
-    println!("past parsing grid");
     let directions = parse_directions(input[1]);
     let start_pos = find_robot(input[0]);
     let mut x = start_pos.0;
