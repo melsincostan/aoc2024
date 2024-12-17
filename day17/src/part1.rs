@@ -9,7 +9,7 @@ pub fn solve(path: &str) -> String {
     out.join(",")
 }
 
-fn parse(input: String) -> (Vec<u32>, u32, u32, u32) {
+pub fn parse(input: String) -> (Vec<u32>, u32, u32, u32) {
     let spl: Vec<&str> = input.lines().collect();
     assert_eq!(spl.len(), 5);
     let a = parse_reg(spl[0]);
@@ -34,7 +34,7 @@ fn parse_reg(input: &str) -> u32 {
     spl[1].parse::<u32>().unwrap()
 }
 
-fn run_code(
+pub fn run_code(
     instructions: Vec<u32>,
     start_a: u32,
     start_b: u32,
