@@ -1,7 +1,37 @@
 use core::panic;
+use std::fs;
 
-pub fn solve(path: &str) -> u32 {
-    0
+pub fn solve(path: &str) -> String {
+    let raw = fs::read_to_string(path).unwrap();
+    let prog = parse(raw);
+    let res = run_code(prog.0, prog.1, prog.2, prog.3);
+    let out: Vec<String> = res.0.iter().map(|n| format!("{}", n)).collect();
+    out.join(",")
+}
+
+fn parse(input: String) -> (Vec<u32>, u32, u32, u32) {
+    let spl: Vec<&str> = input.lines().collect();
+    assert_eq!(spl.len(), 5);
+    let a = parse_reg(spl[0]);
+    let b = parse_reg(spl[1]);
+    let c = parse_reg(spl[2]);
+    let program = parse_instructions(spl[4]);
+    (program, a, b, c)
+}
+
+fn parse_instructions(input: &str) -> Vec<u32> {
+    let spl: Vec<&str> = input.split(": ").collect();
+    assert_eq!(spl.len(), 2);
+    spl[1]
+        .split(",")
+        .map(|e| e.parse::<u32>().unwrap())
+        .collect()
+}
+
+fn parse_reg(input: &str) -> u32 {
+    let spl: Vec<&str> = input.split(": ").collect();
+    assert_eq!(spl.len(), 2);
+    spl[1].parse::<u32>().unwrap()
 }
 
 fn run_code(
@@ -116,7 +146,7 @@ mod test {
 
     #[test]
     fn test_solve() {
-        assert_eq!(solve("sample.txt"), 0);
+        assert_eq!(solve("sample.txt"), "4,6,3,5,6,3,5,2,1,0");
     }
 
     #[test]
