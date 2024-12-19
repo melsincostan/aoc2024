@@ -4,7 +4,7 @@ use std::fs;
 pub fn solve(path: &str) -> String {
     let raw = fs::read_to_string(path).unwrap();
     let prog = parse(raw);
-    let res = run_code(prog.0, prog.1, prog.2, prog.3);
+    let res = run_code(&prog.0, prog.1, prog.2, prog.3);
     let out: Vec<String> = res.0.iter().map(|n| format!("{}", n)).collect();
     out.join(",")
 }
@@ -35,7 +35,7 @@ fn parse_reg(input: &str) -> u32 {
 }
 
 pub fn run_code(
-    instructions: Vec<u32>,
+    instructions: &Vec<u32>,
     start_a: u32,
     start_b: u32,
     start_c: u32,
