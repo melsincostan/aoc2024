@@ -1,5 +1,25 @@
-pub fn solve(path: &str) -> u32 {
-    0
+use std::fs;
+
+pub fn solve(path: &str) -> usize {
+    let raw = fs::read_to_string(path).unwrap();
+    let (towels, patterns) = parse(raw.as_str());
+    patterns.iter().filter(|p| possible(&towels, p)).count()
+}
+
+fn parse(input: &str) -> (Vec<&str>, Vec<&str>) {
+    let spl: Vec<&str> = input.split("\n\n").collect();
+    assert_eq!(spl.len(), 2);
+    let towels = parse_towels(spl[0]);
+    let patterns = parse_patterns(spl[1]);
+    (towels, patterns)
+}
+
+fn parse_towels(input: &str) -> Vec<&str> {
+    input.split(",").map(|t| t.trim()).collect()
+}
+
+fn parse_patterns(input: &str) -> Vec<&str> {
+    input.lines().map(|l| l.trim()).collect()
 }
 
 fn possible(towels: &Vec<&str>, pattern: &str) -> bool {
@@ -24,7 +44,7 @@ mod test {
 
     #[test]
     fn test_solve() {
-        assert_eq!(solve("sample.txt"), 0);
+        assert_eq!(solve("sample.txt"), 6);
     }
 
     #[test]
