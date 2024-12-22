@@ -22,7 +22,7 @@ fn parse_patterns(input: &str) -> Vec<&str> {
     input.lines().map(|l| l.trim()).collect()
 }
 
-fn possible(towels: &Vec<&str>, pattern: &str) -> bool {
+pub fn possible(towels: &Vec<&str>, pattern: &str) -> bool {
     if pattern.len() < 1 {
         return true;
     }
